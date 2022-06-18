@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./App.css";
 import Timer from "./Components/Timer";
+import IconPlay from "./Icons/IconPlay";
+import IconPause from "./Icons/IconPause";
+
+import IconReset from "./Icons/IconReset";
 import worker_script from "./Workers/countdown";
 
 const myWorker = new Worker(worker_script);
@@ -33,19 +37,45 @@ function App() {
     }
   };
 
-  const sendMessage = (mess) => {
+  // const sendMessage = (mess) => {
+  //   setIsPaused(!isPaused);
+  //   myWorker.postMessage(mess + "," + timeSeconds);
+  // };
+
+  const changeState = () => {
+    const message = isPaused ? "Start" : "Stop";
     setIsPaused(!isPaused);
-    myWorker.postMessage(mess + "," + timeSeconds);
+    //Send message to web worker
+    myWorker.postMessage(message + "," + timeSeconds);
+  };
+
+  const reset = () => {
+    // setBreakControl(5);
+    // setSessionControl(25);
+    setTimeSeconds(25 * 60); // m -> s -> 10ms
+    setTimeAlarm({ m: "25", s: "00" });
   };
 
   return (
-    <div className="content">
-      <h2>Counter with web-worker:</h2>
+    <div className="App">
+      <h1>25 + 5 Clock</h1>
       <Timer timeValue={timeAlarm.m + ":" + timeAlarm.s} />
+      <div className="timer-control">
+        <div id="start_stop" onClick={changeState}>
+          {isPaused ? (
+            <IconPlay id="i-play" fill="#000" width={40} height={40} />
+          ) : (
+            <IconPause id="i-pause" fill="#000" width={40} height={40} />
+          )}
+        </div>
+        <div id="reset" onClick={() => reset()}>
+          <IconReset fill="#000" width={40} height={40} />
+        </div>
+      </div>
       {/* <p>{timeAlarm.m + ":" + timeAlarm.s}</p> */}
-      <button onClick={() => sendMessage(isPaused ? "Start" : "Stop")}>
+      {/* <button onClick={() => sendMessage(isPaused ? "Start" : "Stop")}>
         {isPaused ? "Start" : "Stop"}
-      </button>
+      </button> */}
     </div>
   );
 }
