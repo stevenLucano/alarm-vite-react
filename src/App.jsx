@@ -57,42 +57,44 @@ function App() {
   };
 
   const changeControl = (controller, change) => {
-    let newMin = timeAlarm.m;
-    let newSec = 0;
+    if (isPaused) {
+      let newMin = timeAlarm.m;
+      let newSec = 0;
 
-    switch (controller) {
-      case "break":
-        if (change === "up") {
-          if (breakControl < 60) {
-            setBreakControl(breakControl + 1);
+      switch (controller) {
+        case "break":
+          if (change === "up") {
+            if (breakControl < 60) {
+              setBreakControl(breakControl + 1);
+            }
+          } else {
+            if (breakControl > 1) {
+              setBreakControl(breakControl - 1);
+            }
           }
-        } else {
-          if (breakControl > 1) {
-            setBreakControl(breakControl - 1);
-          }
-        }
-        break;
+          break;
 
-      case "session":
-        if (change === "up") {
-          if (sessionControl < 60) {
-            setSessionControl(sessionControl + 1);
-            newMin++;
+        case "session":
+          if (change === "up") {
+            if (sessionControl < 60) {
+              setSessionControl(sessionControl + 1);
+              newMin++;
+            }
+          } else {
+            if (sessionControl > 1) {
+              setSessionControl(sessionControl - 1);
+              newMin--;
+            }
           }
-        } else {
-          if (sessionControl > 1) {
-            setSessionControl(sessionControl - 1);
-            newMin--;
-          }
-        }
-        setTimeSeconds(newMin * 60);
-        break;
+          setTimeSeconds(newMin * 60);
+          break;
+      }
+
+      setTimeAlarm({
+        m: newMin < 10 ? "0" + newMin : newMin,
+        s: newSec < 10 ? "0" + newSec : newSec,
+      });
     }
-
-    setTimeAlarm({
-      m: newMin < 10 ? "0" + newMin : newMin,
-      s: newSec < 10 ? "0" + newSec : newSec,
-    });
   };
 
   return (

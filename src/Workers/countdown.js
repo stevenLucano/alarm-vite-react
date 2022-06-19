@@ -1,19 +1,27 @@
 // worker.js
 
-let intervalTime = "";
+// let intervalTime = "";
 
 const workerCode = () => {
   self.onmessage = function (e) {
+    // intervalTime = "";
+
     console.log("Mensaje: " + e.data);
     let [mess, seg] = e.data.split(",");
     if (mess == "Start") {
+      // clearInterval(intervalTime);
       intervalTime = setInterval(() => {
         // console.log("Hello guys");
         seg--;
         self.postMessage(seg);
       }, 1000);
     } else {
-      clearInterval(intervalTime);
+      try {
+        clearInterval(intervalTime);
+      } catch (error) {
+        // console.log(error);
+      }
+
       self.postMessage(seg);
     }
   };
