@@ -13,8 +13,8 @@ const myWorker = new Worker(worker_script);
 function App() {
   const [breakControl, setBreakControl] = useState(5);
   const [sessionControl, setSessionControl] = useState(25);
-  const [timeSeconds, setTimeSeconds] = useState(5);
-  const [timeAlarm, setTimeAlarm] = useState({ m: "00", s: "00" });
+  const [timeSeconds, setTimeSeconds] = useState(25 * 60);
+  const [timeAlarm, setTimeAlarm] = useState({ m: "25", s: "00" });
   const [isPaused, setIsPaused] = useState(true);
 
   myWorker.onmessage = (m) => {
@@ -48,30 +48,51 @@ function App() {
   };
 
   const reset = () => {
-    // setBreakControl(5);
-    // setSessionControl(25);
+    setIsPaused(true);
+    setBreakControl(5);
+    setSessionControl(25);
     setTimeSeconds(25 * 60); // m -> s -> 10ms
     setTimeAlarm({ m: "25", s: "00" });
+    myWorker.postMessage("Stop,1500");
   };
 
   const changeControl = (controller, change) => {
+    let newMin = timeAlarm.m;
+    let newSec = 0;
+
     switch (controller) {
       case "break":
         if (change === "up") {
-          setBreakControl(breakControl + 1);
+          if (breakControl < 60) {
+            setBreakControl(breakControl + 1);
+          }
         } else {
-          setBreakControl(breakControl - 1);
+          if (breakControl > 1) {
+            setBreakControl(breakControl - 1);
+          }
         }
         break;
 
       case "session":
         if (change === "up") {
-          setSessionControl(sessionControl + 1);
+          if (sessionControl < 60) {
+            setSessionControl(sessionControl + 1);
+            newMin++;
+          }
         } else {
-          setSessionControl(sessionControl - 1);
+          if (sessionControl > 1) {
+            setSessionControl(sessionControl - 1);
+            newMin--;
+          }
         }
+        setTimeSeconds(newMin * 60);
         break;
     }
+
+    setTimeAlarm({
+      m: newMin < 10 ? "0" + newMin : newMin,
+      s: newSec < 10 ? "0" + newSec : newSec,
+    });
   };
 
   return (
