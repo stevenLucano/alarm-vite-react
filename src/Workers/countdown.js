@@ -8,13 +8,15 @@ const workerCode = () => {
 
     console.log("Mensaje: " + e.data);
     let [mess, seg] = e.data.split(",");
+    seg = parseInt(seg);
     if (mess == "Start") {
       // clearInterval(intervalTime);
       intervalTime = setInterval(() => {
+        // console.log(seg);
         // console.log("Hello guys");
         seg--;
         self.postMessage(seg);
-      }, 1000);
+      }, 200);
     } else {
       try {
         clearInterval(intervalTime);

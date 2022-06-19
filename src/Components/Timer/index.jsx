@@ -1,10 +1,10 @@
 import React from "react";
 import "./styles.scss";
 
-const Timer = ({ timeValue }) => {
+const Timer = ({ nameTimer, timeValue }) => {
   return (
     <div>
-      <p id="timer-label">Session</p>
+      <p id="timer-label">{nameTimer}</p>
       <p id="time-left">{timeValue}</p>
     </div>
   );
