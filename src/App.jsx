@@ -3,13 +3,16 @@ import "./App.css";
 import Timer from "./Components/Timer";
 import IconPlay from "./Icons/IconPlay";
 import IconPause from "./Icons/IconPause";
-
 import IconReset from "./Icons/IconReset";
+
 import worker_script from "./Workers/countdown";
+import ControlTimer from "./Components/ControlTimer.jsx";
 
 const myWorker = new Worker(worker_script);
 
 function App() {
+  const [breakControl, setBreakControl] = useState(5);
+  const [sessionControl, setSessionControl] = useState(25);
   const [timeSeconds, setTimeSeconds] = useState(5);
   const [timeAlarm, setTimeAlarm] = useState({ m: "00", s: "00" });
   const [isPaused, setIsPaused] = useState(true);
@@ -37,11 +40,6 @@ function App() {
     }
   };
 
-  // const sendMessage = (mess) => {
-  //   setIsPaused(!isPaused);
-  //   myWorker.postMessage(mess + "," + timeSeconds);
-  // };
-
   const changeState = () => {
     const message = isPaused ? "Start" : "Stop";
     setIsPaused(!isPaused);
@@ -56,9 +54,41 @@ function App() {
     setTimeAlarm({ m: "25", s: "00" });
   };
 
+  const changeControl = (controller, change) => {
+    switch (controller) {
+      case "break":
+        if (change === "up") {
+          setBreakControl(breakControl + 1);
+        } else {
+          setBreakControl(breakControl - 1);
+        }
+        break;
+
+      case "session":
+        if (change === "up") {
+          setSessionControl(sessionControl + 1);
+        } else {
+          setSessionControl(sessionControl - 1);
+        }
+        break;
+    }
+  };
+
   return (
     <div className="App">
       <h1>25 + 5 Clock</h1>
+      <div className="controllers">
+        <ControlTimer
+          name="break"
+          defaultValue={breakControl}
+          fnc={changeControl}
+        />
+        <ControlTimer
+          name="session"
+          defaultValue={sessionControl}
+          fnc={changeControl}
+        />
+      </div>
       <Timer timeValue={timeAlarm.m + ":" + timeAlarm.s} />
       <div className="timer-control">
         <div id="start_stop" onClick={changeState}>

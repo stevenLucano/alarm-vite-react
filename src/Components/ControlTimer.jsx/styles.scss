@@ -1,0 +1,15 @@
+.controller {
+    width: 15vw;
+    margin: 0 20px;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#break-label, #session-label {
+    text-transform: capitalize;
+}
