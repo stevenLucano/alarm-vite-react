@@ -62,30 +62,15 @@ function App() {
 
   const changeControl = (controller, change) => {
     if (isPaused) {
-      // let newMin = 0;
-      // if (mode === "Break") {
-      //   newMin = breakControl;
-      // } else {
-      //   newMin = sessionControl;
-      // }
-      // let newSec = 0;
-
       switch (controller) {
         case "break":
           if (change === "up") {
             if (breakControl < 60) {
               setBreakControl(breakControl + 1);
-              // if (mode === "break") {
-              //   newMin = breakControl;
-              //   newMin++;
-              // }
             }
           } else {
             if (breakControl > 1) {
               setBreakControl(breakControl - 1);
-              // if (mode === "break") {
-              //   newMin--;
-              // }
             }
           }
           break;
@@ -94,36 +79,14 @@ function App() {
           if (change === "up") {
             if (sessionControl < 60) {
               setSessionControl(sessionControl + 1);
-              // if (mode === "session") {
-              //   newMin++;
-              // }
             }
           } else {
             if (sessionControl > 1) {
               setSessionControl(sessionControl - 1);
-              // if (mode === "session") {
-              //   newMin--;
-              // }
             }
           }
-          // setTimeSeconds(newMin * 60);
           break;
       }
-
-      // if (timeAlarm.m !== "01") {
-      //   if (newMin < 10) newMin = "0" + newMin;
-      // } else {
-      //   if (newMin == 1) {
-      //     newMin = "01";
-      //   } else if (newMin < 10) {
-      //     newMin = "0" + newMin;
-      //   }
-      // }
-
-      // setTimeAlarm({
-      //   m: newMin,
-      //   s: newSec < 10 ? "0" + newSec : newSec,
-      // });
     }
   };
 
@@ -161,7 +124,6 @@ function App() {
       });
     } else {
       newMin = breakControl;
-      // newMin = newMin < 10 ? "0" + newMin : newMin.toString();
 
       if (timeAlarm.m !== "01") {
         if (newMin < 10) newMin = "0" + newMin;
@@ -209,10 +171,6 @@ function App() {
           <IconReset fill="#000" width={40} height={40} />
         </div>
       </div>
-      {/* <p>{timeAlarm.m + ":" + timeAlarm.s}</p> */}
-      {/* <button onClick={() => sendMessage(isPaused ? "Start" : "Stop")}>
-        {isPaused ? "Start" : "Stop"}
-      </button> */}
     </div>
   );
 }

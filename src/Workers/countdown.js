@@ -16,7 +16,7 @@ const workerCode = () => {
         // console.log("Hello guys");
         seg--;
         self.postMessage(seg);
-      }, 200);
+      }, 1000);
     } else {
       try {
         clearInterval(intervalTime);
