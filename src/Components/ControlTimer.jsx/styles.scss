@@ -12,4 +12,9 @@
 
 #break-label, #session-label {
     text-transform: capitalize;
+    
+}
+
+#break-decrement, #break-increment, #session-decrement, #session-increment {
+    cursor: pointer;
 }

@@ -16,6 +16,7 @@ function App() {
   const [timeAlarm, setTimeAlarm] = useState({ m: "25", s: "00" });
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("Session");
+  const [totalSeconds, setTotalSeconds] = useState(25 * 60);
 
   const createWorker = () => {
     myWorker = new Worker(worker_script);
@@ -30,7 +31,23 @@ function App() {
           m: min < 10 ? "0" + min : min,
           s: seg < 10 ? "0" + seg : seg,
         });
+        if (m.data == 0) {
+          const audioAlarm = document.getElementById("beep");
+          audioAlarm.currentTime = 0;
+          audioAlarm.play();
+        }
       } else if (m.data == -1) {
+        if (mode === "Session") {
+          setTimeAlarm({
+            m: breakControl < 10 ? "0" + breakControl : "" + breakControl,
+            s: "00",
+          });
+        } else {
+          setTimeAlarm({
+            m: sessionControl < 10 ? "0" + sessionControl : "" + sessionControl,
+            s: "00",
+          });
+        }
         mode === "Session" ? setMode("Break") : setMode("Session");
       }
     };
@@ -46,10 +63,14 @@ function App() {
     } else {
       createWorker();
       myWorker.postMessage(message + "," + timeSeconds);
+      // setTotalSeconds(timeSeconds);
     }
   };
 
   const reset = () => {
+    const audioAlarm = document.getElementById("beep");
+    audioAlarm.pause();
+    audioAlarm.currentTime = 0;
     setIsPaused(true);
     setBreakControl(5);
     setSessionControl(25);
@@ -65,10 +86,12 @@ function App() {
       switch (controller) {
         case "break":
           if (change === "up") {
+            console.log("clicked break up");
             if (breakControl < 60) {
               setBreakControl(breakControl + 1);
             }
           } else {
+            console.log("clicked break down");
             if (breakControl > 1) {
               setBreakControl(breakControl - 1);
             }
@@ -77,10 +100,14 @@ function App() {
 
         case "session":
           if (change === "up") {
+            console.log("clicked session up");
+
             if (sessionControl < 60) {
               setSessionControl(sessionControl + 1);
             }
           } else {
+            console.log("clicked session down");
+
             if (sessionControl > 1) {
               setSessionControl(sessionControl - 1);
             }
@@ -90,21 +117,9 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (!isPaused) {
-      myWorker.terminate();
-      if (mode === "Session") {
-        createWorker();
-        myWorker.postMessage("Start," + sessionControl * 60);
-      } else {
-        createWorker();
-        myWorker.postMessage("Start," + breakControl * 60);
-      }
-    }
-  }, [mode]);
-
-  useEffect(() => {
+  const cronometer = (stateTimer) => {
     let newMin = 0;
+    console.log(stateTimer);
     if (mode === "Session") {
       newMin = sessionControl;
 
@@ -118,10 +133,14 @@ function App() {
         }
       }
 
-      setTimeAlarm({
-        m: newMin,
-        s: "00",
-      });
+      if (stateTimer === "session") {
+        setTimeAlarm({
+          m: newMin,
+          s: "00",
+        });
+        setTimeSeconds(newMin * 60);
+        setTotalSeconds(newMin * 60);
+      }
     } else {
       newMin = breakControl;
 
@@ -135,13 +154,39 @@ function App() {
         }
       }
 
-      setTimeAlarm({
-        m: newMin,
-        s: "00",
-      });
+      if (stateTimer === "break") {
+        setTimeAlarm({
+          m: newMin,
+          s: "00",
+        });
+        setTimeSeconds(newMin * 60);
+        setTotalSeconds(newMin * 60);
+      }
     }
-    setTimeSeconds(newMin * 60);
-  }, [breakControl, sessionControl]);
+  };
+
+  useEffect(() => {
+    if (!isPaused) {
+      myWorker.terminate();
+      if (mode === "Session") {
+        createWorker();
+        myWorker.postMessage("Start," + sessionControl * 60);
+        setTotalSeconds(sessionControl * 60);
+      } else {
+        createWorker();
+        myWorker.postMessage("Start," + breakControl * 60);
+        setTotalSeconds(breakControl * 60);
+      }
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    cronometer("break");
+  }, [breakControl]);
+
+  useEffect(() => {
+    cronometer("session");
+  }, [sessionControl]);
 
   return (
     <div className="App">
@@ -158,7 +203,12 @@ function App() {
           fnc={changeControl}
         />
       </div>
-      <Timer nameTimer={mode} timeValue={timeAlarm.m + ":" + timeAlarm.s} />
+      <Timer
+        nameTimer={mode}
+        timeValue={timeAlarm.m + ":" + timeAlarm.s}
+        percentageSec={(timeSeconds / totalSeconds) * 100}
+        colorFill={timeSeconds < 60 ? "red" : "blue"}
+      />
       <div className="timer-control">
         <div id="start_stop" onClick={changeState}>
           {isPaused ? (
@@ -171,6 +221,11 @@ function App() {
           <IconReset fill="#000" width={40} height={40} />
         </div>
       </div>
+      <audio
+        id="beep"
+        preload="auto"
+        src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+      ></audio>
     </div>
   );
 }

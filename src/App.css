@@ -19,4 +19,5 @@
 svg {
   position: relative;
   top: 10%;
+  cursor: pointer;
 }
