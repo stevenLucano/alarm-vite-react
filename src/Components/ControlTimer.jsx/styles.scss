@@ -1,6 +1,6 @@
 .controller {
-    width: 15vw;
-    margin: 0 20px;
+    width: 300px;
+    margin: 0 50px;
 }
 
 .buttons {
@@ -11,10 +11,21 @@
 }
 
 #break-label, #session-label {
+    color: aliceblue;
+    font-size: 30px;
+    font-family: consolas;
     text-transform: capitalize;
+    text-align: center;
+    margin-bottom: 20px;
     
 }
 
 #break-decrement, #break-increment, #session-decrement, #session-increment {
     cursor: pointer;
+}
+
+.display {
+    font-family: consolas;
+    color: aliceblue;
+    font-size: 30px;
 }

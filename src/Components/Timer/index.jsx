@@ -7,18 +7,17 @@ import "react-circular-progressbar/dist/styles.css";
 import "./styles.scss";
 
 const Timer = ({ nameTimer, timeValue, percentageSec, colorFill }) => {
-  // const textTimer = document.getElementById("time-left");
-  // textTimer.style.setProperty("--color", colorFill);
-
   return (
     <div className="timer">
-      <p id="timer-label">{nameTimer}</p>
-      {/* <p id="time-left">{timeValue}</p> */}
+      <p id="timer-label" style={{ color: colorFill }}>
+        {nameTimer}
+      </p>
       <CircularProgressbarWithChildren
         value={percentageSec}
         styles={buildStyles({
-          textColor: colorFill,
           pathColor: colorFill,
+          trailColor: "rgba(255,255,255,0.2)",
+          pathTransition: "1s",
         })}
       >
         <div id="time-left" style={{ color: colorFill }}>

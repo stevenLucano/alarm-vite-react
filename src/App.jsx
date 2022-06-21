@@ -207,20 +207,37 @@ function App() {
         nameTimer={mode}
         timeValue={timeAlarm.m + ":" + timeAlarm.s}
         percentageSec={(timeSeconds / totalSeconds) * 100}
-        colorFill={timeSeconds < 60 ? "red" : "blue"}
+        colorFill={timeSeconds < 60 ? "#e53935" : "#1976d2"}
       />
       <div className="timer-control">
-        <div id="start_stop" onClick={changeState}>
+        <a className="btnsTimer" href="#" id="start_stop" onClick={changeState}>
           {isPaused ? (
-            <IconPlay id="i-play" fill="#000" width={40} height={40} />
+            <span>
+              <IconPlay
+                id="i-play"
+                fill="rgba(255, 255, 255, 0.3)"
+                width={40}
+                height={40}
+              />
+            </span>
           ) : (
-            <IconPause id="i-pause" fill="#000" width={40} height={40} />
+            <span>
+              <IconPause
+                id="i-pause"
+                fill="rgba(255, 255, 255, 0.3)"
+                width={40}
+                height={40}
+              />
+            </span>
           )}
-        </div>
-        <div id="reset" onClick={() => reset()}>
-          <IconReset fill="#000" width={40} height={40} />
-        </div>
+        </a>
+        <a className="btnsTimer" href="#" id="reset" onClick={() => reset()}>
+          <span>
+            <IconReset fill="rgba(255, 255, 255, 0.3)" width={40} height={40} />
+          </span>
+        </a>
       </div>
+
       <audio
         id="beep"
         preload="auto"
