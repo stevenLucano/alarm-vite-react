@@ -53,6 +53,7 @@ h1{
 }
 
 .btn {
+  --op-pseudo: 0;
   position: relative;
   width: 100px;
   height: 50px;
@@ -84,7 +85,7 @@ h1{
   background: linear-gradient(45deg, #fb0094, #00f, #0f0, 
   #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00);
   background-size: 400%;
-  opacity: 0;
+  opacity: var(--op-pseudo);
   transition: 0.5s;
   animation: animate 20s linear infinite;
 
@@ -100,7 +101,7 @@ h1{
   background: linear-gradient(45deg, #fb0094, #00f, #0f0, 
   #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00);
   background-size: 400%;
-  opacity: 0;
+  opacity: var(--op-pseudo);
   filter: blur(20px);
   transition: 0.5s;
   animation: animate 20s linear infinite;

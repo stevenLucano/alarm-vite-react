@@ -31,6 +31,24 @@ function App() {
     } else {
       aRef[0].classList.add("ref-link-hover");
     }
+
+    //Estilos de los botones
+    let btns = document.getElementsByClassName("btn");
+    btns = [...btns];
+
+    // let spans = btns[0].querySelectorAll("span");
+    // console.log(spans);
+    if (wnWidth <= 400 || scWidth <= 400) {
+      btns.forEach((element) => {
+        element.style.setProperty("--op-pseudo", "1");
+        element.querySelector("path").style.fill = "#fff";
+      });
+    } else {
+      btns.forEach((element) => {
+        element.style.setProperty("--op-pseudo", "0");
+        element.querySelector("path").style.fill = "rgba(255, 255, 255, 0.3)";
+      });
+    }
   };
 
   const createWorker = () => {
@@ -116,13 +134,11 @@ function App() {
         case "session":
           if (change === "up") {
             // console.log("clicked session up");
-
             if (sessionControl < 60) {
               setSessionControl(sessionControl + 1);
             }
           } else {
             // console.log("clicked session down");
-
             if (sessionControl > 1) {
               setSessionControl(sessionControl - 1);
             }
@@ -180,6 +196,13 @@ function App() {
     }
   };
 
+  // const prueba = () => {
+  //   console.log("Hola mundo");
+  //   let btns = document.getElementsByClassName("btn");
+  //   // console.log(btns[0]);
+  //   btns[0].style.setProperty("--op-pseudo", "1");
+  // };
+
   useEffect(() => {
     if (!isPaused) {
       myWorker.terminate();
@@ -233,11 +256,15 @@ function App() {
           className="btn btnsTimer"
           href="#"
           id="start_stop"
-          onClick={changeState}
+          onClick={() => {
+            changeState();
+            prueba();
+          }}
         >
           {isPaused ? (
             <span>
               <IconPlay
+                className="btn-icon"
                 id="i-play"
                 fill="rgba(255, 255, 255, 0.3)"
                 width={40}
@@ -247,6 +274,7 @@ function App() {
           ) : (
             <span>
               <IconPause
+                className="btn-icon"
                 id="i-pause"
                 fill="rgba(255, 255, 255, 0.3)"
                 width={40}
