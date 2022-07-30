@@ -28,7 +28,7 @@ h1{
     justify-content: start;
   }
   h1{
-    margin: 100px 0 50px 0;
+    margin: 10px 0 50px 0;
     font-size: 50px;
   }
 }
@@ -53,6 +53,10 @@ h1{
 
 .btn {
   --op-pseudo: 0;
+  --cl-pseudo: linear-gradient(45deg, #fb0094, #00f, #0f0, 
+  #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00);
+  --bl-pseudo: 20px;
+  --tr-pseudo: animate 20s linear infinite;
   position: relative;
   width: 100px;
   height: 50px;
@@ -62,7 +66,7 @@ h1{
   font-size: 20px;
   letter-spacing: 4px;
   text-decoration: none;
-  -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
+  -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.085));
 }
 @media (max-width:800px){
   .btn {
@@ -81,12 +85,11 @@ h1{
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #fb0094, #00f, #0f0, 
-  #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00);
+  background: var(--cl-pseudo);
   background-size: 400%;
   opacity: var(--op-pseudo);
   transition: 0.5s;
-  animation: animate 20s linear infinite;
+  animation: var(--tr-pseudo);
 
 }
 
@@ -97,13 +100,12 @@ h1{
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #fb0094, #00f, #0f0, 
-  #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00);
+  background: var(--cl-pseudo);
   background-size: 400%;
   opacity: var(--op-pseudo);
-  filter: blur(20px);
+  filter: blur(var(--bl-pseudo));
   transition: 0.5s;
-  animation: animate 20s linear infinite;
+  animation: var(--tr-pseudo);
 }
 
 .btn:hover::before,.btn:hover::after{

@@ -35,18 +35,26 @@ function App() {
     //Estilos de los botones
     let btns = document.getElementsByClassName("btn");
     btns = [...btns];
-
-    // let spans = btns[0].querySelectorAll("span");
-    // console.log(spans);
     if (wnWidth <= 400 || scWidth <= 400) {
       btns.forEach((element) => {
         element.style.setProperty("--op-pseudo", "1");
+        element.style.setProperty("--tr-pseudo", "none");
+        element.style.setProperty("--cl-pseudo", "#fff");
+        element.style.setProperty("--bl-pseudo", "5px");
+
         element.querySelector("path").style.fill = "#fff";
       });
     } else {
       btns.forEach((element) => {
         element.style.setProperty("--op-pseudo", "0");
-        element.querySelector("path").style.fill = "rgba(255, 255, 255, 0.3)";
+        element.style.setProperty("--tr-pseudo", "animate 20s linear infinite");
+        element.style.setProperty(
+          "--cl-pseudo",
+          "linear-gradient(45deg, #fb0094, #00f, #0f0, #ff0, #f00, #fb0094, #00f, #0f0, #ff0, #f00)"
+        );
+        element.style.setProperty("--bl-pseudo", "20px");
+
+        element.querySelector("path").style.fill = "";
       });
     }
   };
