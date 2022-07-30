@@ -1,31 +1,51 @@
 .controller {
-    width: 300px;
-    margin: 0 50px;
+  width: 300px;
+  margin: 0 50px;
 }
 
 .buttons {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#break-label, #session-label {
-    color: aliceblue;
-    font-size: 30px;
-    font-family: consolas;
-    text-transform: capitalize;
-    text-align: center;
-    margin-bottom: 20px;
-    
+#break-label,
+#session-label {
+  color: aliceblue;
+  font-size: 30px;
+  font-family: consolas;
+  text-transform: capitalize;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-#break-decrement, #break-increment, #session-decrement, #session-increment {
-    cursor: pointer;
+#break-decrement,
+#break-increment,
+#session-decrement,
+#session-increment {
+  cursor: pointer;
 }
 
 .display {
-    font-family: consolas;
-    color: aliceblue;
-    font-size: 30px;
+  font-family: consolas;
+  color: aliceblue;
+  font-size: 30px;
+}
+
+@media (max-width: 400px) {
+  .controller {
+    width: 35vw;
+    margin: 0 20px;
+  }
+
+  #break-label,
+  #session-label {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .display {
+    font-size: 20px;
+  }
 }

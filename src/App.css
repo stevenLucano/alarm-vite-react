@@ -3,19 +3,40 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   background: #000;
+  touch-action: none;
 }
 
 h1{
   color: aliceblue;
   font-size: 70px;
   margin-bottom: 50px;
-  margin-top: -100px;
+}
+
+@media (max-width:400px){
+  .App {
+    justify-content: start;
+  }
+  h1{
+    font-size: 30px;
+    margin: 130px 0 50px 0;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .controllers {
+  width: 60vw;
   display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width:400px){
+  .controllers{
+    width: 100vw;
+  }
 }
 
 .timer-control {
@@ -30,7 +51,7 @@ h1{
   margin: 0 20px;
 }
 
-a {
+.btn {
   position: relative;
   width: 100px;
   height: 50px;
@@ -42,7 +63,12 @@ a {
   text-decoration: none;
   -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
 }
-a::before {
+@media (max-width:400px) {
+  .btn {
+    width: 50px;
+  }
+}
+.btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -58,7 +84,7 @@ a::before {
 
 }
 
-a::after {
+.btn::after {
   content: "";
   position: absolute;
   top: 0;
@@ -74,7 +100,7 @@ a::after {
   animation: animate 20s linear infinite;
 }
 
-a:hover::before,a:hover::after{
+.btn:hover::before,.btn:hover::after{
   opacity: 1;
 }
 
@@ -90,7 +116,7 @@ a:hover::before,a:hover::after{
   }
 }
 
-a span {
+.btn span {
   position: absolute;
   display: flex;
   align-items: center;
@@ -105,11 +131,11 @@ a span {
   transition: 0.5s;
   z-index: 1;
 }
-a:hover span {
-  color: rgba(255, 255, 255,1);
+.btn:hover span {
+  color: #fff;
 }
 
-a span::before {
+.btn span::before {
   content: "";
   position: absolute;
   top: 0;
@@ -119,7 +145,15 @@ a span::before {
   background: rgba(255, 255, 255, 0.1);
 }
 
-a:hover path {
+.btn:hover path {
   transition: 1s;
-  fill: rgba(255,255,255,1);
+  fill: rgb(255, 255, 255);
+  
 }
+
+@media (max-width:400px){
+  .btn svg{
+    width: 30px;
+  }
+}
+

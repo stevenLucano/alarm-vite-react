@@ -24,6 +24,7 @@ const ControlTimer = ({ name, defaultValue, fnc }) => {
       <p id={`${name}-label`}>{name}</p>
       <div className="buttons">
         <a
+          className="btn"
           id={`${name}-decrement`}
           onClick={() => fnc(name, "down")}
           onMouseEnter={() => changeColor("down")}
@@ -38,6 +39,7 @@ const ControlTimer = ({ name, defaultValue, fnc }) => {
           {defaultValue}
         </div>
         <a
+          className="btn"
           id={`${name}-increment`}
           onClick={() => fnc(name, "up")}
           onMouseEnter={() => changeColor("up")}

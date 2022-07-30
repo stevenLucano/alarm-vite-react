@@ -7,9 +7,15 @@ import IconReset from "./Icons/IconReset";
 
 import worker_script from "./Workers/countdown";
 import ControlTimer from "./Components/ControlTimer.jsx";
+import Reference from "./Components/Reference";
+
 let myWorker = new Worker(worker_script);
 
 function App() {
+  window.addEventListener("resize", () => {
+    changeHover(window.innerWidth, screen.width);
+  });
+
   const [breakControl, setBreakControl] = useState(5);
   const [sessionControl, setSessionControl] = useState(25);
   const [timeSeconds, setTimeSeconds] = useState(25 * 60);
@@ -17,6 +23,15 @@ function App() {
   const [isPaused, setIsPaused] = useState(true);
   const [mode, setMode] = useState("Session");
   const [totalSeconds, setTotalSeconds] = useState(25 * 60);
+
+  const changeHover = (wnWidth, scWidth) => {
+    const aRef = document.getElementsByClassName("ref-link");
+    if (wnWidth <= 620 || scWidth <= 620) {
+      aRef[0].classList.remove("ref-link-hover");
+    } else {
+      aRef[0].classList.add("ref-link-hover");
+    }
+  };
 
   const createWorker = () => {
     myWorker = new Worker(worker_script);
@@ -86,12 +101,12 @@ function App() {
       switch (controller) {
         case "break":
           if (change === "up") {
-            console.log("clicked break up");
+            // console.log("clicked break up");
             if (breakControl < 60) {
               setBreakControl(breakControl + 1);
             }
           } else {
-            console.log("clicked break down");
+            // console.log("clicked break down");
             if (breakControl > 1) {
               setBreakControl(breakControl - 1);
             }
@@ -100,13 +115,13 @@ function App() {
 
         case "session":
           if (change === "up") {
-            console.log("clicked session up");
+            // console.log("clicked session up");
 
             if (sessionControl < 60) {
               setSessionControl(sessionControl + 1);
             }
           } else {
-            console.log("clicked session down");
+            // console.log("clicked session down");
 
             if (sessionControl > 1) {
               setSessionControl(sessionControl - 1);
@@ -119,7 +134,7 @@ function App() {
 
   const cronometer = (stateTimer) => {
     let newMin = 0;
-    console.log(stateTimer);
+    // console.log(stateTimer);
     if (mode === "Session") {
       newMin = sessionControl;
 
@@ -188,6 +203,10 @@ function App() {
     cronometer("session");
   }, [sessionControl]);
 
+  useEffect(() => {
+    changeHover(window.innerWidth, screen.width);
+  }, []);
+
   return (
     <div className="App">
       <h1>25 + 5 Clock</h1>
@@ -210,7 +229,12 @@ function App() {
         colorFill={timeSeconds < 60 ? "#e53935" : "#1976d2"}
       />
       <div className="timer-control">
-        <a className="btnsTimer" href="#" id="start_stop" onClick={changeState}>
+        <a
+          className="btn btnsTimer"
+          href="#"
+          id="start_stop"
+          onClick={changeState}
+        >
           {isPaused ? (
             <span>
               <IconPlay
@@ -231,13 +255,18 @@ function App() {
             </span>
           )}
         </a>
-        <a className="btnsTimer" href="#" id="reset" onClick={() => reset()}>
+        <a
+          className="btn btnsTimer"
+          href="#"
+          id="reset"
+          onClick={() => reset()}
+        >
           <span>
             <IconReset fill="rgba(255, 255, 255, 0.3)" width={40} height={40} />
           </span>
         </a>
       </div>
-
+      <Reference />
       <audio
         id="beep"
         preload="auto"
